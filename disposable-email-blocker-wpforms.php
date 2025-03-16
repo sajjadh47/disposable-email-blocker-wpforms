@@ -1,86 +1,100 @@
 <?php
+
 /**
- * Plugin Name: Disposable Email Blocker - WPForms
- * Plugin URI: https://wordpress.org/plugins/disposable-email-blocker-wpforms/
- * Author: Sajjad Hossain Sagor
- * Description: Prevent Submitting Spammy Disposable/Temporary Emails On WPForms Contact Form.
- * Version: 1.0.3
- * Author URI: https://sajjadhsagor.com
- * Text Domain: disposable-email-blocker-wpforms
+ * The plugin bootstrap file
+ *
+ * This file is read by WordPress to generate the plugin information in the plugin
+ * admin area. This file also includes all of the dependencies used by the plugin,
+ * registers the activation and deactivation functions, and defines a function
+ * that starts the plugin.
+ *
+ * @since             2.0.0
+ * @package           Disposable_Email_Blocker_Wpforms
+ *
+ * Plugin Name:       Disposable Email Blocker - WPForms
+ * Plugin URI:        https://wordpress.org/plugins/disposable-email-blocker-wpforms/
+ * Description:       Prevent Submitting Spammy Disposable/Temporary Emails On WPForms Contact Form.
+ * Version:           2.0.0
+ * Author:            Sajjad Hossain Sagor
+ * Author URI:        https://sajjadhsagor.com/
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain:       disposable-email-blocker-wpforms
+ * Domain Path:       /languages
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) die;
 
-// plugin root path....
-define( 'DEBWPFORMS_ROOT_DIR', dirname( __FILE__ ) );
+/**
+ * Currently plugin version.
+ */
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_VERSION', '2.0.0' );
 
-// plugin root url....
-define( 'DEBWPFORMS_ROOT_URL', plugin_dir_url( __FILE__ ) );
+/**
+ * Define Plugin Folders Path
+ */
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
-// plugin version
-define( 'DEBWPFORMS_VERSION', '1.0.3' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
-// load translation files...
-add_action( 'plugins_loaded', 'debwpforms_load_plugin_textdomain' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-function debwpforms_load_plugin_textdomain()
-{	
-	load_plugin_textdomain( 'disposable-email-blocker-wpforms', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
+// Plugin database table name to add domains list
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_TABLE_NAME', 'disposable_domains' );
 
-// add toggle to enable email blocking
-add_action( 'wpforms_form_settings_general', function( $form )
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-plugin-activator.php
+ * 
+ * @since    2.0.0
+ */
+function activate_disposable_email_blocker_wpforms()
 {
-	wpforms_panel_field(
-		'checkbox',
-		'settings',
-		'block_disposable_emails',
-		$form->form_data,
-		esc_html__( 'Block Disposable/Temporary Emails', 'disposable-email-blocker-wpforms' ),
-		array(
-			'tooltip' => esc_html__( 'Enables blocking disposable and temporary emails from submitting.', 'disposable-email-blocker-wpforms' ),
-		)
-	);
-
-	wpforms_panel_field(
-		'text',
-		'settings',
-		'disposable_emails_found_msg',
-		$form->form_data,
-		esc_html__( 'Disposable Email Found Error Text', 'disposable-email-blocker-wpforms' ),
-		array(
-			'default' => esc_html__( 'Disposable/Temporary emails are not allowed! Please use a non temporary email', 'disposable-email-blocker-wpforms' ),
-		)
-	);
-} );
-
-// check if disposable email is found and if so then mark form as invalid and show message
-add_action( 'wpforms_process_validate_email', 'debwpforms_block_disposable_emails', 10, 3 );
-
-function debwpforms_block_disposable_emails( $field_id, $field_submit, $form_data )
-{
-	// if not blocking is enabled return early	
-	if ( $form_data['settings']['block_disposable_emails'] !== '1' ) return;
+	require_once DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_PATH . 'includes/class-plugin-activator.php';
 	
-	if( filter_var( $field_submit, FILTER_VALIDATE_EMAIL ) )
-	{
-		// split on @ and return last value of array (the domain)
-		$domain = explode('@', $field_submit );
-		
-		$domain = array_pop( $domain );
-
-		// get domains list from json file
-		$disposable_emails_db = file_get_contents( DEBWPFORMS_ROOT_DIR . '/assets/data/domains.min.json' );
-
-		// convert json to php array
-		$disposable_emails = json_decode( $disposable_emails_db );
-
-		// check if domain is in disposable db
-		if ( in_array( $domain, $disposable_emails ) )
-		{	
-			wpforms()->process->errors[ $form_data['id'] ][ $field_id ] = $form_data['settings']['disposable_emails_found_msg'];
-			
-			return;
-		}
-	}
+	Disposable_Email_Blocker_Wpforms_Activator::activate();
 }
+
+register_activation_hook( __FILE__, 'activate_disposable_email_blocker_wpforms' );
+
+/**
+ * The code that runs during plugin deactivation.
+ * This action is documented in includes/class-plugin-deactivator.php
+ * 
+ * @since    2.0.0
+ */
+function deactivate_disposable_email_blocker_wpforms()
+{
+	require_once DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_PATH . 'includes/class-plugin-deactivator.php';
+	
+	Disposable_Email_Blocker_Wpforms_Deactivator::deactivate();
+}
+
+register_deactivation_hook( __FILE__, 'deactivate_disposable_email_blocker_wpforms' );
+
+/**
+ * The core plugin class that is used to define internationalization,
+ * admin-specific hooks, and public-facing site hooks.
+ * 
+ * @since    2.0.0
+ */
+require DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_PATH . 'includes/class-plugin.php';
+
+/**
+ * Begins execution of the plugin.
+ *
+ * Since everything within the plugin is registered via hooks,
+ * then kicking off the plugin from this point in the file does
+ * not affect the page life cycle.
+ *
+ * @since    2.0.0
+ */
+function run_disposable_email_blocker_wpforms()
+{
+	$plugin = new Disposable_Email_Blocker_Wpforms();
+	
+	$plugin->run();
+}
+
+run_disposable_email_blocker_wpforms();
