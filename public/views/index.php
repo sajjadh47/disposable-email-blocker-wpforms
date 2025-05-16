@@ -4,7 +4,7 @@
  *
  * @since         2.0.0
  * @package       Disposable_Email_Blocker_Wpforms
- * @subpackage    Disposable_Email_Blocker_Wpforms/includes
+ * @subpackage    Disposable_Email_Blocker_Wpforms/public/views
  * @author        Sajjad Hossain Sagor <sagorh672@gmail.com>
  */
 
