@@ -24,6 +24,7 @@ class Disposable_Email_Blocker_Wpforms_Activator {
 	 * with data from a txt file.
 	 *
 	 * @since     2.0.0
+	 * @static
 	 * @access    public
 	 */
 	public static function on_activate() {
