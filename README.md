@@ -1,5 +1,7 @@
 # Disposable Email Blocker - WPForms
 
+[![Plugin Banner](https://ps.w.org/disposable-email-blocker-wpforms/assets/banner-772x250.png)](https://wordpress.org/plugins/disposable-email-blocker-wpforms/)
+
 **Tags:** disposable-email-blocker, temporary-email-blocker, blocker, temporary-email, wpforms \
 **Tested up to:** 6.8 \
 **Requires PHP:** 8.0
