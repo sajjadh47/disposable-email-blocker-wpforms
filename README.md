@@ -62,6 +62,9 @@ Just after installing Disposable Email Blocker - WPForms plugin, create or edit 
 
 ## Changelog
 
+### 2.0.2
+- Fixed fatal error when uninstalling
+
 ### 2.0.1
 - Checked for latest wp version 6.8
 
