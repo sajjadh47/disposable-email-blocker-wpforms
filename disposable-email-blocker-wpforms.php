@@ -13,7 +13,7 @@
  * Plugin Name:       Disposable Email Blocker - WPForms
  * Plugin URI:        https://wordpress.org/plugins/disposable-email-blocker-wpforms/
  * Description:       Prevent Submitting Spammy Disposable/Temporary Emails On WPForms Contact Form.
- * Version:           2.0.2
+ * Version:           2.0.3
  * Requires at least: 5.6
  * Requires PHP:      8.0
  * Author:            Sajjad Hossain Sagor
@@ -33,7 +33,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Currently plugin version.
  */
-define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_VERSION', '2.0.2' );
+define( 'DISPOSABLE_EMAIL_BLOCKER_WPFORMS_PLUGIN_VERSION', '2.0.3' );
 
 /**
  * Define Plugin Folders Path
