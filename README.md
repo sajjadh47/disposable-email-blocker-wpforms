@@ -3,7 +3,7 @@
 [![Plugin Banner](https://ps.w.org/disposable-email-blocker-wpforms/assets/banner-1544x500.png)](https://wordpress.org/plugins/disposable-email-blocker-wpforms/)
 
 **Tags:** disposable-email-blocker, temporary-email-blocker, blocker, temporary-email, wpforms \
-**Tested up to:** 6.9 \
+**Tested up to:** 7.0 \
 **Requires PHP:** 8.0
 
 Prevent Submitting Spammy Disposable/Temporary Emails On WPForms Contact Form.
@@ -61,6 +61,9 @@ Just after installing Disposable Email Blocker - WPForms plugin, create or edit 
 
 
 ## Changelog
+
+### 2.0.4
+- Compatibility checkup for latest wp version 7.0
 
 ### 2.0.3
 - Compatibility checkup for latest wp version 6.9
